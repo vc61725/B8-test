@@ -1,22 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Excel Converter</title>
+<meta charset="utf-8">
+<title>Excel轉換器</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 </head>
 <body>
 
-<h1>Excel B8入倉轉換工具 </h1>
+<h2>Excel轉換器</h2>
 
-<input type="file" id="file">
+<input type="file" id="excelFile">
 
-<button onclick="convert()">
-轉換
+<button onclick="readExcel()">
+讀取Excel
 </button>
 
+<pre id="result"></pre>
+
 <script>
-function convert(){
-    alert("成功");
+
+function readExcel(){
+
+    const file =
+      document.getElementById("excelFile")
+      .files[0];
+
+    const reader =
+      new FileReader();
+
+    reader.onload = function(e){
+
+        const data =
+          new Uint8Array(e.target.result);
+
+        const workbook =
+          XLSX.read(data,{type:"array"});
+
+        const sheet =
+          workbook.Sheets[
+            workbook.SheetNames[0]
+          ];
+
+        const json =
+          XLSX.utils.sheet_to_json(sheet);
+
+        document.getElementById("result")
+          .textContent =
+          JSON.stringify(json,null,2);
+    }
+
+    reader.readAsArrayBuffer(file);
 }
+
 </script>
 
 </body>
