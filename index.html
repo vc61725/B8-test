@@ -1,24 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <title>全台物流 CSV 轉 Excel</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .box {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+    </style>
 
 </head>
 
 <body>
 
-<h2>全台物流CSV轉Excel</h2>
+    <div class="box">
 
-<input type="file" id="csvFile">
+        <h1>全台物流 CSV 轉 Excel</h1>
 
-<button onclick="convertCSV()">
-開始轉換
-</button>
+        <p>
+            選擇全台物流下載的 CSV 檔案
+        </p>
 
-<script src="script.js"></script>
+        <input
+            type="file"
+            id="csvFile"
+            accept=".csv">
+
+        <br><br>
+
+        <button onclick="convertCSV()">
+            開始轉換
+        </button>
+
+    </div>
+
+    <script src="script.js"></script>
 
 </body>
 
