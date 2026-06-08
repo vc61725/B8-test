@@ -1,6 +1,6 @@
 function convertCSV() {
 
-
+```
 const file =
     document.getElementById("csvFile").files[0];
 
@@ -13,48 +13,23 @@ const reader = new FileReader();
 
 reader.onload = function(e) {
 
-    const workbook =
-        XLSX.read(
-            e.target.result,
-            {
-                type: "binary"
-            }
+    const decoder =
+        new TextDecoder("big5");
+
+    const text =
+        decoder.decode(
+            e.target.result
         );
 
-    const sheet =
-        workbook.Sheets[
-            workbook.SheetNames[0]
-        ];
-
-    const rows =
-        XLSX.utils.sheet_to_json(
-            sheet,
-            {
-                header: 1,
-                defval: ""
-            }
-        );
-
-    console.clear();
-
-    rows.forEach((row, index) => {
-
-        console.log(
-            "第" + index + "列",
-            row
-        );
-
-    });
+    console.log(text);
 
     alert(
-        "請按F12查看Console"
+        "已用Big5讀取，請查看Console"
     );
 
 };
 
-reader.readAsBinaryString(file);
-
+reader.readAsArrayBuffer(file);
+```
 
 }
-
-
