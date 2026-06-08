@@ -13,7 +13,12 @@ function convertCSV() {
         const rows =
           text.split("\n")
               .map(x => x.split(","));
+const headerRow = 8;
 
+const headers = rows[headerRow];
+
+console.log("表頭：");
+console.log(headers);
         console.log(rows);
 
         alert("成功讀取CSV");
