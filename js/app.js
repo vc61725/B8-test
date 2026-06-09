@@ -33,7 +33,7 @@ function searchTDC() {
 
     const item =
         b8Data.find(
-            x => x["TDC"] === tdc
+            x => String(x["TDC"]).trim() === tdc
         );
 
     if (!item) {
@@ -51,6 +51,7 @@ function searchTDC() {
         <b>全家代號：</b>${item["全家代號"]}<br>
         <b>日翊代號：</b>${item["日翊代號"]}<br>
         <b>期數：</b>${item["期數"]}<br>
+        <b>廠商：</b>${item["廠商"]}<br>
         <b>廠商代號：</b>${item["廠商代號"]}
         `;
 }
@@ -69,9 +70,63 @@ function convertCSV() {
         return;
     }
 
-    document.getElementById("result").innerHTML =
-        `
-        B8資料筆數：${b8Data.length}<br><br>
-        CSV檔案：${file.name}
-        `;
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+
+        const text = e.target.result;
+
+        const lines = text.split(/\r?\n/);
+
+        let resultHtml =
+            `<b>CSV檔案：</b>${file.name}<br><br>`;
+
+        let foundCount = 0;
+
+        for (let line of lines) {
+
+            if (!line.includes(",")) continue;
+
+            const cols = line.split(",");
+
+            const tdc =
+                cols.find(c =>
+                    /^\d{7,10}$/.test(
+                        c.replace(/"/g, "").trim()
+                    )
+                );
+
+            if (!tdc) continue;
+
+            const cleanTDC =
+                tdc.replace(/"/g, "").trim();
+
+            const item =
+                b8Data.find(
+                    x => String(x["TDC"]).trim() === cleanTDC
+                );
+
+            if (!item) continue;
+
+            foundCount++;
+
+            resultHtml += `
+                <hr>
+                TDC：${item["TDC"]}<br>
+                商品：${item["廠商"]}<br>
+                全家代號：${item["全家代號"]}<br>
+                日翊代號：${item["日翊代號"]}<br>
+                廠商代號：${item["廠商代號"]}<br>
+            `;
+        }
+
+        resultHtml =
+            `<b>成功比對：</b>${foundCount} 筆<br><br>`
+            + resultHtml;
+
+        document.getElementById("result").innerHTML =
+            resultHtml;
+    };
+
+    reader.readAsText(file, "utf-8");
 }
