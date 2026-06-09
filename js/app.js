@@ -4,7 +4,7 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_7ciuMdtTX-PyYVr3PbUGDQ_HGtC1wvp";
 
-const supabase =
+const db =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
@@ -17,7 +17,7 @@ window.onload = async function () {
     try {
 
         const { data, error } =
-            await supabase
+            await db
                 .from("products")
                 .select("*");
 
@@ -122,7 +122,8 @@ function convertCSV() {
 
             const item =
                 b8Data.find(
-                    x => String(x.tdc).trim() === cleanTDC
+                    x =>
+                        String(x.tdc).trim() === cleanTDC
                 );
 
             if (!item) continue;
