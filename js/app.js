@@ -122,8 +122,7 @@ function convertCSV() {
 
             const item =
                 b8Data.find(
-                    x =>
-                        String(x.tdc).trim() === cleanTDC
+                    x => String(x.tdc).trim() === cleanTDC
                 );
 
             if (!item) continue;
