@@ -7,12 +7,11 @@ window.onload = async function () {
         const response =
             await fetch("./data/B8.json");
 
-        b8Data = await response.json();
+        b8Data =
+            await response.json();
 
         document.getElementById("result").innerHTML =
             `成功載入 ${b8Data.length} 筆商品資料`;
-
-        console.log(b8Data);
 
     } catch (error) {
 
@@ -21,12 +20,47 @@ window.onload = async function () {
         document.getElementById("result").innerHTML =
             "B8資料載入失敗";
     }
+
 };
+
+function searchTDC() {
+
+    const tdc =
+        document
+        .getElementById("tdcInput")
+        .value
+        .trim();
+
+    const item =
+        b8Data.find(
+            x => x["TDC"] === tdc
+        );
+
+    if (!item) {
+
+        document.getElementById("result").innerHTML =
+            "查無資料";
+
+        return;
+    }
+
+    document.getElementById("result").innerHTML =
+
+        `
+        <b>TDC：</b>${item["TDC"]}<br>
+        <b>全家代號：</b>${item["全家代號"]}<br>
+        <b>日翊代號：</b>${item["日翊代號"]}<br>
+        <b>期數：</b>${item["期數"]}<br>
+        <b>廠商代號：</b>${item["廠商代號"]}
+        `;
+}
 
 function convertCSV() {
 
     const file =
-        document.getElementById("csvFile").files[0];
+        document
+        .getElementById("csvFile")
+        .files[0];
 
     if (!file) {
 
@@ -36,6 +70,8 @@ function convertCSV() {
     }
 
     document.getElementById("result").innerHTML =
-        `B8資料筆數：${b8Data.length}<br><br>` +
-        `CSV檔案：${file.name}`;
+        `
+        B8資料筆數：${b8Data.length}<br><br>
+        CSV檔案：${file.name}
+        `;
 }
