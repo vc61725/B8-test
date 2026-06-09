@@ -1,14 +1,29 @@
+const SUPABASE_URL =
+    "https://vfbxmednhbkcizyjojfc.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_7ciuMdtTX-PyYVr3PbUGDQ_HGtC1wvp";
+
+const supabase =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
 let b8Data = [];
 
 window.onload = async function () {
 
     try {
 
-        const response =
-            await fetch("./data/B8.json");
+        const { data, error } =
+            await supabase
+                .from("products")
+                .select("*");
 
-        b8Data =
-            await response.json();
+        if (error) throw error;
+
+        b8Data = data;
 
         document.getElementById("result").innerHTML =
             `成功載入 ${b8Data.length} 筆商品資料`;
@@ -18,7 +33,7 @@ window.onload = async function () {
         console.error(error);
 
         document.getElementById("result").innerHTML =
-            "B8資料載入失敗";
+            "Supabase資料載入失敗";
     }
 
 };
@@ -27,13 +42,13 @@ function searchTDC() {
 
     const tdc =
         document
-        .getElementById("tdcInput")
-        .value
-        .trim();
+            .getElementById("tdcInput")
+            .value
+            .trim();
 
     const item =
         b8Data.find(
-            x => String(x["TDC"]).trim() === tdc
+            x => String(x.tdc).trim() === tdc
         );
 
     if (!item) {
@@ -47,12 +62,14 @@ function searchTDC() {
     document.getElementById("result").innerHTML =
 
         `
-        <b>TDC：</b>${item["TDC"]}<br>
-        <b>全家代號：</b>${item["全家代號"]}<br>
-        <b>日翊代號：</b>${item["日翊代號"]}<br>
-        <b>期數：</b>${item["期數"]}<br>
-        <b>廠商：</b>${item["廠商"]}<br>
-        <b>廠商代號：</b>${item["廠商代號"]}
+        <b>TDC：</b>${item.tdc}<br>
+        <b>全家代號：</b>${item.family_code}<br>
+        <b>日翊代號：</b>${item.riyi_code}<br>
+        <b>期數：</b>${item.period}<br>
+        <b>廠商代號：</b>${item.vendor_code}<br>
+        <b>廠商Email：</b>${item.vendor_email}<br>
+        <b>國際條碼：</b>${item.barcode}<br>
+        <b>箱入數：</b>${item.carton_qty}
         `;
 }
 
@@ -60,8 +77,8 @@ function convertCSV() {
 
     const file =
         document
-        .getElementById("csvFile")
-        .files[0];
+            .getElementById("csvFile")
+            .files[0];
 
     if (!file) {
 
@@ -76,7 +93,8 @@ function convertCSV() {
 
         const text = e.target.result;
 
-        const lines = text.split(/\r?\n/);
+        const lines =
+            text.split(/\r?\n/);
 
         let resultHtml =
             `<b>CSV檔案：</b>${file.name}<br><br>`;
@@ -87,7 +105,8 @@ function convertCSV() {
 
             if (!line.includes(",")) continue;
 
-            const cols = line.split(",");
+            const cols =
+                line.split(",");
 
             const tdc =
                 cols.find(c =>
@@ -103,7 +122,8 @@ function convertCSV() {
 
             const item =
                 b8Data.find(
-                    x => String(x["TDC"]).trim() === cleanTDC
+                    x =>
+                        String(x.tdc).trim() === cleanTDC
                 );
 
             if (!item) continue;
@@ -112,11 +132,13 @@ function convertCSV() {
 
             resultHtml += `
                 <hr>
-                TDC：${item["TDC"]}<br>
-                商品：${item["廠商"]}<br>
-                全家代號：${item["全家代號"]}<br>
-                日翊代號：${item["日翊代號"]}<br>
-                廠商代號：${item["廠商代號"]}<br>
+                TDC：${item.tdc}<br>
+                全家代號：${item.family_code}<br>
+                日翊代號：${item.riyi_code}<br>
+                廠商代號：${item.vendor_code}<br>
+                廠商Email：${item.vendor_email}<br>
+                國際條碼：${item.barcode}<br>
+                箱入數：${item.carton_qty}<br>
             `;
         }
 
