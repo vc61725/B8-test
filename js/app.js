@@ -229,22 +229,110 @@ csvData.forEach(item => {
 
 });
 
-document.getElementById("result").innerHTML =
-`
-成功 Mapping：
+let html = `
+<h3>入倉通知單</h3>
 
-${resultData.length}
+<table>
 
-筆
+<tr>
 
-<br><br>
+<th>配送中心</th>
 
-找不到：
+<th>配送日期</th>
 
-${notFoundList.length}
+<th>廠商</th>
 
-筆
+<th>TDC</th>
+
+<th>品名</th>
+
+<th>箱數</th>
+
+<th>日翊代號</th>
+
+<th>國際條碼</th>
+
+</tr>
 `;
+
+resultData.forEach(item => {
+
+    html += `
+
+<tr>
+
+<td>${item.center}</td>
+
+<td>${item.deliveryDate}</td>
+
+<td>${item.vendorName}</td>
+
+<td>${item.tdc}</td>
+
+<td>${item.productName}</td>
+
+<td>${item.cartonQty}</td>
+
+<td>${item.riyiCode}</td>
+
+<td>${item.barcode}</td>
+
+</tr>
+
+`;
+
+});
+
+html += `</table>`;
+
+        if (notFoundList.length > 0) {
+
+    html += `
+
+<hr>
+
+<h3 style="color:red">
+
+⚠ 找不到 Mapping 商品
+
+</h3>
+
+<table>
+
+<tr>
+
+<th>TDC</th>
+
+<th>品名</th>
+
+<th>箱數</th>
+
+</tr>
+`;
+
+    notFoundList.forEach(item => {
+
+        html += `
+
+<tr>
+
+<td>${item.tdc}</td>
+
+<td>${item.productName}</td>
+
+<td>${item.cartonQty}</td>
+
+</tr>
+`;
+
+    });
+
+    html += `</table>`;
+
+}
+
+document.getElementById("result").innerHTML =
+    html;
 
         
 
