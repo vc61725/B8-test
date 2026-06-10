@@ -68,12 +68,12 @@ async function convertCSV() {
         const csvText =
             decoder.decode(e.target.result);
 
-        const rows =
-            csvText
-            .split(/\r?\n/)
-            .filter(
-                x => x.trim() !== ""
-            );
+       const rows =
+    csvText
+    .split(/\r\n|\n|\r/)
+    .filter(
+        x => x.trim() !== ""
+    );
 
         console.log(rows.length);
 
