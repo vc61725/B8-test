@@ -52,8 +52,7 @@ window.onload = async function () {
 
 };
 
-
-
+javascript
 function searchTDC() {
 
     const tdc =
@@ -79,35 +78,132 @@ function searchTDC() {
 
     }
 
-    const headerIndex =
-    rows.findIndex(
-        row =>
-            row.includes("序號")
-    );
+    document.getElementById("result").innerHTML =
+        `
+        <b>TDC：</b>${item.tdc}
+        <br>
+        <b>全家代號：</b>${item.family_code}
+        <br>
+        <b>日翊代號：</b>${item.riyi_code}
+        <br>
+        <b>廠商：</b>${item.vendor_name}
+        <br>
+        <b>國際條碼：</b>${item.barcode}
+        <br>
+        <b>箱入數：</b>${item.carton_qty}
+        `;
 
-const dataRows =
-    rows.slice(
-        headerIndex + 1
-    );
+}
 
-document.getElementById("result").innerHTML =
-`
-headerIndex：
 
-${headerIndex}
 
-<br><br>
+async function convertCSV() {
 
-資料列：
+    const file =
+        document
+        .getElementById("csvFile")
+        .files[0];
 
-${dataRows.length}
-`;
+    if (!file) {
+
+        alert("請選擇 CSV");
+
+        return;
+
+    }
+
+    document.getElementById("result").innerHTML =
+        "讀取 CSV 中...";
+
+    const reader =
+        new FileReader();
+
+    reader.onload = function (e) {
+
+        const decoder =
+            new TextDecoder("big5");
+
+        const csvText =
+            decoder.decode(
+                e.target.result
+            );
+
+        const rows =
+            csvText
+            .split(/\r\n|\n|\r/)
+            .filter(
+                x => x.trim() !== ""
+            );
+
+        const headerIndex =
+            rows.findIndex(
+                row =>
+                    row.includes("序號")
+            );
+
+        const dataRows =
+            rows.slice(
+                headerIndex + 1
+            );
+
+        let csvData = [];
+
+        dataRows.forEach(row => {
+
+            const cols =
+                row.split(",");
+
+            if (cols.length < 18)
+                return;
+
+            csvData.push({
+
+                productName:
+                    cols[2],
+
+                tdc:
+                    cols[3],
+
+                cartonQty:
+                    cols[7],
+
+                center:
+                    cols[16],
+
+                deliveryDate:
+                    cols[17]
+
+            });
+
+        });
+
+        document.getElementById("result").innerHTML =
+        `
+        headerIndex：
+
+        ${headerIndex}
+
+        <br><br>
+
+        dataRows：
+
+        ${dataRows.length}
+
+        <br><br>
+
+        csvData：
+
+        ${csvData.length}
+        `;
 
     };
 
     reader.readAsArrayBuffer(file);
 
 }
+
+
+
 
 
 
