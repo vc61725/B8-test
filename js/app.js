@@ -67,7 +67,7 @@ async function convertCSV() {
 
         const csvText =
             decoder.decode(e.target.result);
-
+console.log(csvText);
        const rows =
     csvText
     .split(/\r\n|\n|\r/)
@@ -75,9 +75,7 @@ async function convertCSV() {
         x => x.trim() !== ""
     );
 
-        console.log(rows.length);
-
-console.log(rows.slice(0,20));
+       
         const dataRows =
             rows.slice(8);
 
