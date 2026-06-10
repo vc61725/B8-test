@@ -207,42 +207,31 @@ csvData.forEach(item => {
 
 resultData.push({
 
-    center:
-        item.center,
+center: item.center,
 
-    deliveryDate:
-        item.deliveryDate,
+deliveryDate: item.deliveryDate,
 
-    vendorName:
-        product.vendor_name,
+vendorName: product.vendor_name,
 
-    tdc:
-        item.tdc,
+tdc: item.tdc,
 
-    productName:
-        item.productName,
+productName: item.productName,
 
-    cartonQty:
-        item.cartonQty,
+cartonQty: item.cartonQty,
 
-    riyiCode:
-        product.riyi_code,
+riyiCode: product.riyi_code,
 
-    barcode:
-        product.barcode,
+barcode: product.barcode,
 
-    cartonSize:
-        product.carton_qty
+cartonSize: product.carton_qty
 
 });
 
-totalCartonQty +=
-    Number(item.cartonQty);
+totalCartonQty += Number(item.cartonQty);
 
 totalPCS +=
-    Number(item.cartonQty)
-    *
-    Number(product.carton_qty);
+Number(item.cartonQty) *
+Number(product.carton_qty);
 
 });
 
