@@ -53,6 +53,7 @@ window.onload = async function () {
 };
 
 
+
 function searchTDC() {
 
     const tdc =
@@ -111,6 +112,8 @@ function searchTDC() {
 
 }
 
+
+
 async function convertCSV() {
 
     const file =
@@ -129,21 +132,40 @@ async function convertCSV() {
     document.getElementById("result").innerHTML =
         "讀取 CSV 中...";
 
+    const reader =
+        new FileReader();
+
+    reader.onload = function (e) {
+
+        const decoder =
+            new TextDecoder("big5");
+
+        const csvText =
+            decoder.decode(
+                e.target.result
+            );
+
+        document.getElementById("result").innerHTML =
+            csvText.substring(0, 500);
+
+    };
+
+    reader.readAsArrayBuffer(file);
+
 }
 
-const reader =
-    new FileReader();
 
-reader.onload = function (e) {
 
-    const decoder =
-        new TextDecoder("big5");
+function downloadPDF() {
 
-    const csvText =
-        decoder.decode(
-            e.target.result
+    html2pdf()
+
+        .from(
+            document.getElementById("result")
+        )
+
+        .save(
+            "B8入倉通知單.pdf"
         );
 
-    document.getElementById("result").innerHTML =
-        csvText.substring(0,500);
-
+}
