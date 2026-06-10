@@ -277,23 +277,53 @@ const deliveryDate =
             cellpadding="8"
             width="100%">
 
-            <tr>
+           resultHtml += `
+<tr>
 
-            <th>序號</th>
-            <th>訂貨驗收單</th>
-            <th style="width:250px">
+<th style="width:130px">序號</th>
+
+<th style="width:130px">
+訂貨驗收單
+</th>
+
+<th style="width:280px">
 品名
 </th>
-            <th>規格</th>
-            <th>包裝數</th>
-            <th>TDC</th>
-            <th>日翊代號</th>
-            <th>國際條碼</th>
-            <th>箱入數</th>
-            <th>訂購箱數</th>
-            <th>訂購總數</th>
 
-            </tr>
+<th style="width:90px">
+規格
+</th>
+
+<th style="width:80px">
+包裝數
+</th>
+
+<th style="width:90px">
+TDC
+</th>
+
+<th style="width:100px">
+日翊代號
+</th>
+
+<th style="width:150px">
+國際條碼
+</th>
+
+<th style="width:80px">
+箱入數
+</th>
+
+<th style="width:80px">
+訂購箱數
+</th>
+
+<th style="width:90px">
+訂購總數
+</th>
+
+</tr>
+`;
 
             `;
 
@@ -305,10 +335,11 @@ const deliveryDate =
 
                 <td>${product.seqNo}</td>
                 <td>${product.acceptNo}</td>
-               <td style="
-min-width:250px;
+              <td
+style="
+width:280px;
 white-space:normal;
-line-height:1.8;
+line-height:1.6;
 word-break:keep-all;
 ">
 ${product.productName}
