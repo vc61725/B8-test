@@ -281,7 +281,9 @@ const deliveryDate =
 
             <th>序號</th>
             <th>訂貨驗收單</th>
-            <th>品名</th>
+            <th style="width:250px">
+品名
+</th>
             <th>規格</th>
             <th>包裝數</th>
             <th>TDC</th>
@@ -303,7 +305,14 @@ const deliveryDate =
 
                 <td>${product.seqNo}</td>
                 <td>${product.acceptNo}</td>
-                <td>${product.productName}</td>
+               <td style="
+min-width:250px;
+white-space:normal;
+line-height:1.8;
+word-break:keep-all;
+">
+${product.productName}
+</td>
                 <td>${product.spec}</td>
                 <td>${product.packageQty}</td>
                 <td>${product.tdc}</td>
