@@ -104,33 +104,32 @@ console.log(cols);
             if (cols.length < 18)
                 return;
 
-            csvData.push({
+           csvData.push({
 
-                productName:
-                    cols[2].trim(),
+    productName: cols[2],
 
-                tdc:
-                    cols[3].trim(),
+    tdc: cols[3],
 
-                cartonQty:
-                    Number(cols[7]) || 0,
+    cartonQty: cols[7],
 
-                center:
-                    cols[16].trim(),
+    center: cols[16],
 
-                deliveryDate:
-                    cols[17].trim()
+    deliveryDate: cols[17]
 
-            });
+});
+
+console.log(csvData);
 
         });
 
         console.log(csvData);
 
-        document.getElementById(
-            "result"
-        ).innerHTML =
-            `成功讀取 ${csvData.length} 筆 CSV 資料`;
+        document.getElementById("result").innerHTML = `
+成功讀取 ${csvData.length} 筆 CSV 資料
+<br>
+TDC：
+${csvData[0]?.tdc}
+`;
 
     };
 
