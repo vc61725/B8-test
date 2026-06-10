@@ -2,7 +2,7 @@ const SUPABASE_URL =
     "https://vfbxmednhbkcizyjojfc.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_7ciuMdtTX-PyYVr3PbUGDQ_HGtC1wvp";
+    "你的 publishable key";
 
 const db =
     window.supabase.createClient(
@@ -34,9 +34,11 @@ window.onload = async function () {
 
         document.getElementById("result").innerHTML =
             "Supabase資料載入失敗";
+
     }
 
 };
+
 
 function searchTDC() {
 
@@ -57,6 +59,7 @@ function searchTDC() {
             "查無資料";
 
         return;
+
     }
 
     document.getElementById("result").innerHTML =
@@ -66,12 +69,16 @@ function searchTDC() {
         <b>全家代號：</b>${item.family_code}<br>
         <b>日翊代號：</b>${item.riyi_code}<br>
         <b>期數：</b>${item.period}<br>
+        <b>廠商：</b>${item.vendor_name}<br>
         <b>廠商代號：</b>${item.vendor_code}<br>
-        <b>廠商Email：</b>${item.vendor_email}<br>
-        <b>國際條碼：</b>${item.barcode}<br>
+        <b>Email：</b>${item.vendor_email}<br>
+        <b>條碼：</b>${item.barcode}<br>
         <b>箱入數：</b>${item.carton_qty}
         `;
+
 }
+
+
 
 function convertCSV() {
 
@@ -96,59 +103,150 @@ function convertCSV() {
         const lines =
             text.split(/\r?\n/);
 
-        let resultHtml =
-            `<b>CSV檔案：</b>${file.name}<br><br>`;
+        let startIndex = -1;
+
+        for (let i = 0; i < lines.length; i++) {
+
+            if (
+                lines[i].includes("序號") &&
+                lines[i].includes("品代")
+            ) {
+
+                startIndex = i + 1;
+                break;
+
+            }
+
+        }
+
+        if (startIndex === -1) {
+
+            document.getElementById("result").innerHTML =
+                "找不到資料區";
+
+            return;
+
+        }
+
+        let resultHtml = `
+        <h3>比對結果</h3>
+
+        <table border="1"
+        cellpadding="5">
+
+        <tr>
+            <th>品名</th>
+            <th>TDC</th>
+            <th>日翊代號</th>
+            <th>廠商</th>
+            <th>箱入數</th>
+            <th>訂購箱數</th>
+            <th>訂購總數</th>
+        </tr>
+        `;
 
         let foundCount = 0;
 
-        for (let line of lines) {
+        for (
+            let i = startIndex;
+            i < lines.length;
+            i++
+        ) {
 
-            if (!line.includes(",")) continue;
+            if (
+                lines[i].trim() === ""
+            ) continue;
 
             const cols =
-                line.split(",");
+                lines[i].split(",");
+
+            if (
+                cols.length < 9
+            ) continue;
+
+            const productName =
+                cols[2]
+                    .replace(/"/g, "")
+                    .trim();
 
             const tdc =
-                cols.find(c =>
-                    /^\d{7,10}$/.test(
-                        c.replace(/"/g, "").trim()
-                    )
-                );
+                cols[3]
+                    .replace(/"/g, "")
+                    .trim();
 
-            if (!tdc) continue;
+            const boxQty =
+                cols[7]
+                    .replace(/"/g, "")
+                    .trim();
 
-            const cleanTDC =
-                tdc.replace(/"/g, "").trim();
+            const totalQty =
+                cols[8]
+                    .replace(/"/g, "")
+                    .trim();
 
             const item =
                 b8Data.find(
                     x =>
-                        String(x.tdc).trim() === cleanTDC
+                        String(x.tdc).trim()
+                        === tdc
                 );
 
-            if (!item) continue;
+            if (!item)
+                continue;
 
             foundCount++;
 
             resultHtml += `
-                <hr>
-                TDC：${item.tdc}<br>
-                全家代號：${item.family_code}<br>
-                日翊代號：${item.riyi_code}<br>
-                廠商代號：${item.vendor_code}<br>
-                廠商Email：${item.vendor_email}<br>
-                國際條碼：${item.barcode}<br>
-                箱入數：${item.carton_qty}<br>
+
+            <tr>
+
+                <td>
+                    ${productName}
+                </td>
+
+                <td>
+                    ${tdc}
+                </td>
+
+                <td>
+                    ${item.riyi_code}
+                </td>
+
+                <td>
+                    ${item.vendor_name}
+                </td>
+
+                <td>
+                    ${item.carton_qty}
+                </td>
+
+                <td>
+                    ${boxQty}
+                </td>
+
+                <td>
+                    ${totalQty}
+                </td>
+
+            </tr>
+
             `;
         }
 
+        resultHtml += "</table>";
+
         resultHtml =
-            `<b>成功比對：</b>${foundCount} 筆<br><br>`
+            `<b>成功比對 ${foundCount} 筆</b><br><br>`
             + resultHtml;
 
         document.getElementById("result").innerHTML =
             resultHtml;
+
     };
 
-    reader.readAsText(file, "utf-8");
+    reader.readAsText(
+        file,
+        "utf-8"
+    );
+
 }
