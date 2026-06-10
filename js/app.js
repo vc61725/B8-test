@@ -76,8 +76,16 @@ console.log(csvText);
     );
 
        
-        const dataRows =
-            rows.slice(8);
+       const headerIndex = rows.findIndex(
+    row => row.includes("序號")
+);
+
+console.log("headerIndex =", headerIndex);
+
+const dataRows =
+    rows.slice(headerIndex + 1);
+
+console.log(dataRows);
 
         let csvData = [];
 
