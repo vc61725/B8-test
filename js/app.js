@@ -136,9 +136,14 @@ const reader =
 
 reader.onload = function (e) {
 
+    const decoder =
+        new TextDecoder("big5");
+
+    const csvText =
+        decoder.decode(
+            e.target.result
+        );
+
     document.getElementById("result").innerHTML =
-        "CSV 已讀取成功";
+        csvText.substring(0,500);
 
-};
-
-reader.readAsArrayBuffer(file);
