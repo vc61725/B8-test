@@ -48,13 +48,13 @@ try {
         `;
 
 }
-```
+
 
 };
 
 function searchTDC() {
 
-```
+
 const tdc =
     document
     .getElementById("tdcInput")
@@ -92,13 +92,13 @@ document.getElementById("result").innerHTML =
 
     <b>箱入數：</b>${item.carton_qty}
     `;
-```
+
 
 }
 
 function downloadPDF() {
 
-```
+
 html2pdf()
 
     .from(
@@ -108,13 +108,13 @@ html2pdf()
     .save(
         "B8入倉通知單.pdf"
     );
-```
+
 
 }
 
 async function convertCSV() {
 
-```
+
 const file =
     document.getElementById("csvFile")
     .files[0];
