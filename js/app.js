@@ -201,7 +201,16 @@ reader.onload = function (e) {
             cols[8]
                 .replace(/"/g, "")
                 .trim();
+        
+const deliveryCenter =
+    cols[11]
+        .replace(/"/g, "")
+        .trim();
 
+const deliveryDate =
+    cols[12]
+        .replace(/"/g, "")
+        .trim();
 
         const item =
             b8Data.find(
@@ -218,17 +227,21 @@ reader.onload = function (e) {
             !vendorGroups[item.vendor_code]
         ) {
 
-            vendorGroups[item.vendor_code] = {
+           vendorGroups[item.vendor_code] = {
 
-                vendor_name:
-                    item.vendor_name,
+    vendor_name:
+        item.vendor_name,
 
-                vendor_email:
-                    item.vendor_email,
+    vendor_email:
+        item.vendor_email,
 
-                items: []
+    deliveryCenter,
 
-            };
+    deliveryDate,
+
+    items: []
+
+};
 
         }
 
