@@ -1,4 +1,4 @@
-
+javascript
 const SUPABASE_URL =
 "https://vfbxmednhbkcizyjojfc.supabase.co";
 
@@ -80,7 +80,6 @@ function searchTDC() {
 
 }
 
-
 function convertCSV() {
 
     const file =
@@ -109,21 +108,29 @@ function convertCSV() {
 
         let startIndex = -1;
 
-        for (let i = 0; i < lines.length; i++) {
+        for (
+            let i = 0;
+            i < lines.length;
+            i++
+        ) {
 
             if (
-                lines[i].includes("序號") &&
+                lines[i].includes("序號")
+                &&
                 lines[i].includes("品代")
             ) {
 
                 startIndex = i + 1;
+
                 break;
 
             }
 
         }
 
-        if (startIndex === -1) {
+        if (
+            startIndex === -1
+        ) {
 
             document.getElementById("result").innerHTML =
                 "找不到資料區";
@@ -136,69 +143,101 @@ function convertCSV() {
 
         let missingList = [];
 
-        for (let i = startIndex; i < lines.length; i++) {
+        for (
+            let i = startIndex;
+            i < lines.length;
+            i++
+        ) {
 
-            if (lines[i].trim() === "")
+            if (
+                lines[i].trim() === ""
+            )
                 continue;
 
             const cols =
                 lines[i].split(",");
 
-            console.log(cols);
-
-            if (cols.length < 9)
+            if (
+                cols.length < 9
+            )
                 continue;
 
             const seqNo =
-                cols[0].replace(/"/g, "").trim();
+                cols[0]
+                    .replace(/"/g, "")
+                    .trim();
 
             const acceptNo =
-                cols[1].replace(/"/g, "").trim();
+                cols[1]
+                    .replace(/"/g, "")
+                    .trim();
 
             const productName =
-                cols[2].replace(/"/g, "").trim();
+                cols[2]
+                    .replace(/"/g, "")
+                    .trim();
 
             const tdc =
-                cols[3].replace(/"/g, "").trim();
+                cols[3]
+                    .replace(/"/g, "")
+                    .trim();
 
             const spec =
-                cols[5].replace(/"/g, "").trim();
+                cols[5]
+                    .replace(/"/g, "")
+                    .trim();
 
             const packageQty =
-                cols[6].replace(/"/g, "").trim();
+                cols[6]
+                    .replace(/"/g, "")
+                    .trim();
 
             const boxQty =
-                cols[7].replace(/"/g, "").trim();
+                cols[7]
+                    .replace(/"/g, "")
+                    .trim();
 
             const totalQty =
-                cols[8].replace(/"/g, "").trim();
+                cols[8]
+                    .replace(/"/g, "")
+                    .trim();
 
-           const deliveryCenter =
-    cols[16]
-        ?.replace(/"/g, "")
-        .trim() || "";
+            const deliveryCenter =
+                cols[16]
+                    ?.replace(/"/g, "")
+                    .trim() || "";
 
-const deliveryDate =
-    cols[17]
-        ?.replace(/"/g, "")
-        .trim() || "";
+            const deliveryDate =
+                cols[17]
+                    ?.replace(/"/g, "")
+                    .trim() || "";
+
             const item =
                 b8Data.find(
                     x =>
-                        String(x.tdc).trim() === tdc
+                        String(x.tdc).trim()
+                        === tdc
                 );
 
             if (!item) {
 
-                missingList.push(tdc);
+                missingList.push(
+                    tdc
+                );
 
                 continue;
 
             }
 
-            if (!vendorGroups[item.vendor_code]) {
+            if (
+                !vendorGroups[
+                    item.vendor_code
+                ]
+            ) {
 
-                vendorGroups[item.vendor_code] = {
+                vendorGroups[
+                    item.vendor_code
+                ] = {
 
                     vendor_name:
                         item.vendor_name,
@@ -216,7 +255,9 @@ const deliveryDate =
 
             }
 
-            vendorGroups[item.vendor_code]
+            vendorGroups[
+                item.vendor_code
+            ]
                 .items
                 .push({
 
@@ -245,42 +286,51 @@ const deliveryDate =
         }
 
         let resultHtml = "";
-
-        for (const vendorCode in vendorGroups) {
+        
+    javascript id="zms5x7"
+        for (
+            const vendorCode
+            in vendorGroups
+        ) {
 
             const vendor =
-                vendorGroups[vendorCode];
+                vendorGroups[
+                    vendorCode
+                ];
 
             resultHtml += `
 
-            <div class="vendor-block">
+<div class="vendor-block">
 
-            <h2>B8 入倉通知單</h2>
+<h2>
+B8 入倉通知單
+</h2>
 
-            <h3>
-            廠商：
-            ${vendor.vendor_name}
-            </h3>
+<h3>
+廠商：
+${vendor.vendor_name}
+</h3>
 
-            <p>
-            配送中心：
-            ${vendor.deliveryCenter}
-            </p>
+<p>
+配送中心：
+${vendor.deliveryCenter}
+</p>
 
-            <p>
-            配送日期：
-            ${vendor.deliveryDate}
-            </p>
+<p>
+配送日期：
+${vendor.deliveryDate}
+</p>
 
-            <table
-            border="1"
-            cellpadding="8"
-            width="100%">
+<table
+border="1"
+cellpadding="8"
+width="100%">
 
-           resultHtml += `
 <tr>
 
-<th style="width:130px">序號</th>
+<th style="width:130px">
+序號
+</th>
 
 <th style="width:130px">
 訂貨驗收單
@@ -323,78 +373,132 @@ TDC
 </th>
 
 </tr>
+
 `;
 
-            `;
+            vendor.items.forEach(
+                product => {
 
-            vendor.items.forEach(product => {
+                    resultHtml += `
 
-                resultHtml += `
+<tr>
 
-                <tr>
-
-                <td>${product.seqNo}</td>
-                <td>${product.acceptNo}</td>
-              <td
-style="
-width:280px;
-white-space:normal;
-line-height:1.6;
-word-break:keep-all;
-">
-${product.productName}
+<td>
+${product.seqNo}
 </td>
-                <td>${product.spec}</td>
-                <td>${product.packageQty}</td>
-                <td>${product.tdc}</td>
-                <td>${product.riyi_code}</td>
-                <td>${product.barcode}</td>
-                <td>${product.carton_qty}</td>
-                <td>${product.boxQty}</td>
-                <td>${product.totalQty}</td>
 
-                </tr>
+<td>
+${product.acceptNo}
+</td>
 
-                `;
+<td
+style="
+min-width:280px;
+white-space:normal;
+line-height:1.8;
+word-break:keep-all;
+text-align:left;
+padding-left:12px;
+">
 
-            });
+${product.productName}
 
-            resultHtml +=
-                "</table><br><br></div>";
+</td>
+
+<td>
+${product.spec}
+</td>
+
+<td>
+${product.packageQty}
+</td>
+
+<td>
+${product.tdc}
+</td>
+
+<td>
+${product.riyi_code}
+</td>
+
+<td>
+${product.barcode}
+</td>
+
+<td>
+${product.carton_qty}
+</td>
+
+<td>
+${product.boxQty}
+</td>
+
+<td>
+${product.totalQty}
+</td>
+
+</tr>
+
+`;
+
+                }
+            );
+
+            resultHtml += `
+
+</table>
+
+<br><br>
+
+</div>
+
+`;
 
         }
 
-        if (missingList.length > 0) {
+        if (
+            missingList.length > 0
+        ) {
 
-            resultHtml +=
-                `
-                <hr>
-                <h3>找不到 Mapping 的 TDC：</h3>
-                ${missingList.join("<br>")}
-                `;
+            resultHtml += `
+
+<hr>
+
+<h3>
+找不到 Mapping 的 TDC：
+</h3>
+
+${missingList.join("<br>")}
+
+`;
 
         }
 
-        document.getElementById("result").innerHTML =
+        document.getElementById(
+            "result"
+        ).innerHTML =
             resultHtml;
 
     };
 
     reader.readAsText(
-    file,
-    "big5"
-);
+        file,
+        "big5"
+    );
 
 }
-
 
 function downloadPDF() {
 
     html2pdf()
         .from(
-            document.getElementById("result")
+            document.getElementById(
+                "result"
+            )
         )
-        .save("B8入倉通知單.pdf");
+        .save(
+            "B8入倉通知單.pdf"
+        );
 
 }
 
