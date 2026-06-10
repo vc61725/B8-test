@@ -336,9 +336,9 @@ function convertCSV() {
     };
 
     reader.readAsText(
-        file,
-        "utf-8"
-    );
+    file,
+    "big5"
+);
 
 }
 
