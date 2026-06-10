@@ -79,88 +79,29 @@ function searchTDC() {
 
     }
 
-    document.getElementById("result").innerHTML =
-        `
-        <b>TDC：</b>
-        ${item.tdc}
+    const headerIndex =
+    rows.findIndex(
+        row =>
+            row.includes("序號")
+    );
 
-        <br>
+const dataRows =
+    rows.slice(
+        headerIndex + 1
+    );
 
-        <b>全家代號：</b>
-        ${item.family_code}
+document.getElementById("result").innerHTML =
+`
+headerIndex：
 
-        <br>
+${headerIndex}
 
-        <b>日翊代號：</b>
-        ${item.riyi_code}
+<br><br>
 
-        <br>
+資料列：
 
-        <b>廠商：</b>
-        ${item.vendor_name}
-
-        <br>
-
-        <b>國際條碼：</b>
-        ${item.barcode}
-
-        <br>
-
-        <b>箱入數：</b>
-        ${item.carton_qty}
-        `;
-
-}
-
-
-
-async function convertCSV() {
-
-    const file =
-        document
-        .getElementById("csvFile")
-        .files[0];
-
-    if (!file) {
-
-        alert("請選擇 CSV");
-
-        return;
-
-    }
-
-    document.getElementById("result").innerHTML =
-        "讀取 CSV 中...";
-
-    const reader =
-        new FileReader();
-
-    reader.onload = function (e) {
-
-        const decoder =
-            new TextDecoder("big5");
-
-        const csvText =
-            decoder.decode(
-                e.target.result
-            );
-
-        const rows =
-            csvText
-            .split(/\r\n|\n|\r/)
-            .filter(
-                x =>
-                    x.trim() !== ""
-            );
-
-        document.getElementById("result").innerHTML =
-        `
-        成功讀取
-
-        ${rows.length}
-
-        筆資料
-        `;
+${dataRows.length}
+`;
 
     };
 
