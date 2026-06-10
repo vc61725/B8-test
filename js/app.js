@@ -96,6 +96,9 @@ console.log(dataRows);
             const cols =
                 row.split(",");
 
+            console.log(cols.length);
+console.log(cols);
+
             console.log(cols.length, cols);
 
             if (cols.length < 18)
