@@ -130,3 +130,15 @@ async function convertCSV() {
         "讀取 CSV 中...";
 
 }
+
+const reader =
+    new FileReader();
+
+reader.onload = function (e) {
+
+    document.getElementById("result").innerHTML =
+        "CSV 已讀取成功";
+
+};
+
+reader.readAsArrayBuffer(file);
