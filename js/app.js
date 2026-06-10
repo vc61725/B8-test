@@ -45,3 +45,79 @@ function searchTDC() {
 function downloadPDF() {
     html2pdf().from(document.getElementById("result")).save("B8入倉通知單.pdf");
 }
+
+async function convertCSV() {
+
+    const file =
+        document.getElementById("csvFile").files[0];
+
+    if (!file) {
+
+        alert("請選擇 CSV");
+
+        return;
+
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+
+        const decoder = new TextDecoder("big5");
+
+        const csvText =
+            decoder.decode(e.target.result);
+
+        const rows =
+            csvText
+            .split(/\r?\n/)
+            .filter(
+                x => x.trim() !== ""
+            );
+
+        const dataRows =
+            rows.slice(8);
+
+        let csvData = [];
+
+        dataRows.forEach(row => {
+
+            const cols =
+                row.split(",");
+
+            if (cols.length < 18)
+                return;
+
+            csvData.push({
+
+                productName:
+                    cols[2].trim(),
+
+                tdc:
+                    cols[3].trim(),
+
+                cartonQty:
+                    Number(cols[7]) || 0,
+
+                center:
+                    cols[16].trim(),
+
+                deliveryDate:
+                    cols[17].trim()
+
+            });
+
+        });
+
+        console.log(csvData);
+
+        document.getElementById(
+            "result"
+        ).innerHTML =
+            `成功讀取 ${csvData.length} 筆 CSV 資料`;
+
+    };
+
+    reader.readAsArrayBuffer(file);
+
+}
