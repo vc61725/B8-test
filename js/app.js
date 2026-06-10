@@ -75,6 +75,9 @@ async function convertCSV() {
                 x => x.trim() !== ""
             );
 
+        console.log(rows.length);
+
+console.log(rows.slice(0,20));
         const dataRows =
             rows.slice(8);
 
