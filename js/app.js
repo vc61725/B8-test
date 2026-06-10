@@ -82,8 +82,12 @@ async function convertCSV() {
 
         dataRows.forEach(row => {
 
+            console.log(row);
+            
             const cols =
                 row.split(",");
+
+            console.log(cols.length, cols);
 
             if (cols.length < 18)
                 return;
