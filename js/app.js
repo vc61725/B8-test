@@ -18,6 +18,9 @@ const reader = new FileReader();
 
 reader.onload = function (e) {
 
+try {
+
+
     const decoder = new TextDecoder("big5");
 
     const csvText =
@@ -198,6 +201,22 @@ reader.onload = function (e) {
 
     document.getElementById("result").innerHTML =
         html;
+
+} catch (error) {
+
+    console.error(error);
+
+    document.getElementById("result").innerHTML =
+        `
+        <div style="color:red">
+        ❌ 發生錯誤
+        <br><br>
+        ${error}
+        </div>
+        `;
+
+}
+
 
 };
 
