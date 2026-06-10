@@ -1,3 +1,91 @@
-<link
-rel="stylesheet"
-href="css/style.css">
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>B8 核帳平台 V4.2</title>
+
+    <link rel="stylesheet"
+        href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
+    </script>
+
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h1>
+            B8 核帳平台
+        </h1>
+
+        <p>
+
+            已載入 B8 商品主檔
+
+        </p>
+
+        <h3>
+
+            TDC 查詢測試
+
+        </h3>
+
+        <input
+            type="text"
+            id="tdcInput"
+            placeholder="輸入TDC">
+
+        <button onclick="searchTDC()">
+
+            查詢
+
+        </button>
+
+        <h3>
+
+            全台物流 CSV
+
+        </h3>
+
+        <input
+            type="file"
+            id="csvFile"
+            accept=".csv">
+
+        <br>
+
+        <button onclick="convertCSV()">
+
+            開始轉換
+
+        </button>
+
+        <button onclick="downloadPDF()">
+
+            下載 PDF
+
+        </button>
+
+        <div id="result">
+
+            載入中...
+
+        </div>
+
+    </div>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
