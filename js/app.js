@@ -7,17 +7,43 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let b8Data = [];
 
 window.onload = async function () {
-    try {
-        const { data, error } = await db.from("products").select("*");
-        if (error) throw error;
 
-        b8Data = data;
-        document.getElementById("result").innerHTML =
-            `成功載入 ${b8Data.length} 筆商品資料`;
-    } catch (error) {
-        console.error(error);
-        document.getElementById("result").innerHTML = "Supabase資料載入失敗";
-    }
+
+document.getElementById("result").innerHTML =
+    "正在載入商品主檔...";
+
+try {
+
+    const { data, error } = await db
+        .from("products")
+        .select("*");
+
+    if (error) throw error;
+
+    b8Data = data || [];
+
+    document.getElementById("result").innerHTML =
+        `
+        <div>
+            ✅ 商品主檔載入成功<br>
+            共 ${b8Data.length} 筆資料
+        </div>
+        `;
+
+    console.log("products =", b8Data);
+
+} catch (error) {
+
+    console.error(error);
+
+    document.getElementById("result").innerHTML =
+        `
+        <div style="color:red">
+            ❌ Supabase 商品主檔載入失敗
+        </div>
+        `;
+}
+
 };
 
 function searchTDC() {
