@@ -144,6 +144,8 @@ function convertCSV() {
             const cols =
                 lines[i].split(",");
 
+            console.log(cols);
+
             if (cols.length < 9)
                 continue;
 
