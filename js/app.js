@@ -213,6 +213,8 @@ deliveryDate: item.deliveryDate,
 
 vendorName: product.vendor_name,
 
+vendorEmail: product.vendor_email, 
+
 tdc: item.tdc,
 
 productName: item.productName,
@@ -238,6 +240,26 @@ Number(product.carton_qty);
 
 let html = `
 <h3>入倉通知單</h3>
+
+<b>配送日期：</b>
+${resultData[0]?.deliveryDate}
+
+<br><br>
+
+<b>配送中心：</b>
+${resultData[0]?.center}
+
+<br><br>
+
+<b>廠商：</b>
+${resultData[0]?.vendorName}
+
+<br><br>
+
+<b>Email：</b>
+${resultData[0]?.vendorEmail}
+
+<br><br>
 
 <table>
 
