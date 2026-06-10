@@ -110,3 +110,23 @@ function searchTDC() {
         `;
 
 }
+
+async function convertCSV() {
+
+    const file =
+        document
+        .getElementById("csvFile")
+        .files[0];
+
+    if (!file) {
+
+        alert("請選擇 CSV");
+
+        return;
+
+    }
+
+    document.getElementById("result").innerHTML =
+        "讀取 CSV 中...";
+
+}
