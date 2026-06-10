@@ -52,7 +52,7 @@ window.onload = async function () {
 
 };
 
-javascript
+
 function searchTDC() {
 
     const tdc =
