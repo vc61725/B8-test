@@ -204,6 +204,7 @@ csvData.forEach(item => {
     }
 
   
+
 resultData.push({
 
     center:
@@ -244,7 +245,6 @@ totalPCS +=
     Number(product.carton_qty);
 
 });
-
 
 
 let html = `
