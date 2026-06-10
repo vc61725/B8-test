@@ -177,24 +177,76 @@ async function convertCSV() {
 
         });
 
-        document.getElementById("result").innerHTML =
-        `
-        headerIndex：
+let resultData = [];
 
-        ${headerIndex}
+let notFoundList = [];
 
-        <br><br>
+csvData.forEach(item => {
 
-        dataRows：
+    const product =
+        window.b8Data.find(
+            x =>
+                String(x.tdc).trim()
+                ===
+                String(item.tdc).trim()
+        );
 
-        ${dataRows.length}
+    if (!product) {
 
-        <br><br>
+        notFoundList.push(item);
 
-        csvData：
+        return;
 
-        ${csvData.length}
-        `;
+    }
+
+    resultData.push({
+
+        center:
+            item.center,
+
+        deliveryDate:
+            item.deliveryDate,
+
+        vendorName:
+            product.vendor_name,
+
+        tdc:
+            item.tdc,
+
+        productName:
+            item.productName,
+
+        cartonQty:
+            item.cartonQty,
+
+        riyiCode:
+            product.riyi_code,
+
+        barcode:
+            product.barcode
+
+    });
+
+});
+
+document.getElementById("result").innerHTML =
+`
+成功 Mapping：
+
+${resultData.length}
+
+筆
+
+<br><br>
+
+找不到：
+
+${notFoundList.length}
+
+筆
+`;
+
+        
 
     };
 
