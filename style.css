@@ -1,0 +1,27 @@
+body{
+    font-family: Arial, sans-serif;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    border:1px solid #ccc;
+    padding:10px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+th{
+    background:#f5f5f5;
+}
+
+/* 品名欄 */
+td:nth-child(3){
+    min-width:250px;
+    white-space:normal;
+    line-height:1.6;
+}
