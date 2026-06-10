@@ -173,12 +173,15 @@ function convertCSV() {
             const totalQty =
                 cols[8].replace(/"/g, "").trim();
 
-            const deliveryCenter =
-                cols[11]?.replace(/"/g, "").trim() || "";
+           const deliveryCenter =
+    cols[16]
+        ?.replace(/"/g, "")
+        .trim() || "";
 
-            const deliveryDate =
-                cols[12]?.replace(/"/g, "").trim() || "";
-
+const deliveryDate =
+    cols[17]
+        ?.replace(/"/g, "")
+        .trim() || "";
             const item =
                 b8Data.find(
                     x =>
