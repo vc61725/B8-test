@@ -181,6 +181,10 @@ let resultData = [];
 
 let notFoundList = [];
 
+let totalCartonQty = 0;
+
+let totalPCS = 0;
+        
 csvData.forEach(item => {
 
     const product =
@@ -225,9 +229,20 @@ csvData.forEach(item => {
         barcode:
             product.barcode
 
+        cartonSize:
+    product.carton_qty
+
     });
 
 });
+
+    totalCartonQty +=
+    Number(item.cartonQty);
+
+totalPCS +=
+    Number(item.cartonQty)
+    *
+    Number(product.carton_qty);
 
 let html = `
 <h3>入倉通知單</h3>
@@ -283,7 +298,33 @@ resultData.forEach(item => {
 
 });
 
-html += `</table>`;
+html += `
+</table>
+
+<br>
+
+<b>
+共 ${resultData.length} 筆商品
+</b>
+
+<br><br>
+
+<b>
+總箱數：
+${totalCartonQty}
+箱
+</b>
+
+<br><br>
+
+<b>
+總 PCS 數：
+
+${totalPCS}
+
+PCS
+</b>
+`;
 
         if (notFoundList.length > 0) {
 
