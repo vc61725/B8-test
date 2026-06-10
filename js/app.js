@@ -123,7 +123,60 @@ console.log(csvData);
         });
 
         console.log(csvData);
+let resultData = [];
 
+let notFoundList = [];
+
+csvData.forEach(item => {
+
+    const product = b8Data.find(
+        x => String(x.tdc).trim() === String(item.tdc).trim()
+    );
+
+    if (!product) {
+
+        notFoundList.push(item);
+
+        return;
+    }
+
+    resultData.push({
+
+        center: item.center,
+
+        deliveryDate: item.deliveryDate,
+
+        vendorName: product.vendor_name,
+
+        tdc: item.tdc,
+
+        productName: item.productName,
+
+        cartonQty: item.cartonQty,
+
+        riyiCode: product.riyi_code,
+
+        barcode: product.barcode
+
+    });
+
+});
+
+console.log(resultData);
+
+console.log(notFoundList);
+
+        document.getElementById("result").innerHTML =
+`
+成功 Mapping：
+
+${resultData.length} 筆
+
+找不到：
+
+${notFoundList.length} 筆
+`;
+        
         document.getElementById("result").innerHTML = `
 成功讀取 ${csvData.length} 筆 CSV 資料
 <br>
