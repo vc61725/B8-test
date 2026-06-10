@@ -2,7 +2,7 @@ const SUPABASE_URL =
 "https://vfbxmednhbkcizyjojfc.supabase.co";
 
 const SUPABASE_KEY =
-"你的 publishable key";
+"sb_publishable_7ciuMdtTX-PyYVr3PbUGDQ_HGtC1wvp";
 
 const db =
 window.supabase.createClient(
@@ -162,6 +162,16 @@ reader.onload = function (e) {
         ) continue;
 
 
+        const seqNo =
+            cols[0]
+                .replace(/"/g, "")
+                .trim();
+
+        const acceptNo =
+            cols[1]
+                .replace(/"/g, "")
+                .trim();
+
         const productName =
             cols[2]
                 .replace(/"/g, "")
@@ -169,6 +179,16 @@ reader.onload = function (e) {
 
         const tdc =
             cols[3]
+                .replace(/"/g, "")
+                .trim();
+
+        const spec =
+            cols[5]
+                .replace(/"/g, "")
+                .trim();
+
+        const packageQty =
+            cols[6]
                 .replace(/"/g, "")
                 .trim();
 
@@ -217,15 +237,25 @@ reader.onload = function (e) {
             .items
             .push({
 
+                seqNo,
+                acceptNo,
                 productName,
+                spec,
+                packageQty,
                 tdc,
-                boxQty,
-                totalQty,
-                riyi_code:
-                    item.riyi_code,
+
+                barcode:
+                    item.barcode,
 
                 carton_qty:
-                    item.carton_qty
+                    item.carton_qty,
+
+                boxQty,
+
+                totalQty,
+
+                riyi_code:
+                    item.riyi_code
 
             });
 
@@ -242,51 +272,104 @@ reader.onload = function (e) {
         const vendor =
             vendorGroups[vendorCode];
 
-        resultHtml +=
+        resultHtml += `
 
-            `
-            <h2>
-                ${vendor.vendor_name}
-            </h2>
+        <h2>
+        B8 入倉通知單
+        </h2>
 
-            <hr>
-            `;
+        <h3>
+        廠商：
+        ${vendor.vendor_name}
+        </h3>
+
+        <table
+        border="1"
+        cellpadding="8"
+        width="100%">
+
+        <tr>
+
+        <th>序號</th>
+
+        <th>訂貨驗收單</th>
+
+        <th>品名</th>
+
+        <th>規格</th>
+
+        <th>包裝數</th>
+
+        <th>TDC</th>
+
+        <th>國際條碼</th>
+
+        <th>箱入數</th>
+
+        <th>訂購箱數</th>
+
+        <th>訂購總數</th>
+
+        </tr>
+
+        `;
 
 
         vendor.items.forEach(
             product => {
 
-                resultHtml +=
+                resultHtml += `
 
-                    `
-                    品名：
-                    ${product.productName}
-                    <br>
+                <tr>
 
-                    TDC：
-                    ${product.tdc}
-                    <br>
+                <td>
+                ${product.seqNo}
+                </td>
 
-                    日翊代號：
-                    ${product.riyi_code}
-                    <br>
+                <td>
+                ${product.acceptNo}
+                </td>
 
-                    箱入數：
-                    ${product.carton_qty}
-                    <br>
+                <td>
+                ${product.productName}
+                </td>
 
-                    訂購箱數：
-                    ${product.boxQty}
-                    <br>
+                <td>
+                ${product.spec}
+                </td>
 
-                    訂購總數：
-                    ${product.totalQty}
-                    <br>
+                <td>
+                ${product.packageQty}
+                </td>
 
-                    <hr>
-                    `;
+                <td>
+                ${product.tdc}
+                </td>
+
+                <td>
+                ${product.barcode}
+                </td>
+
+                <td>
+                ${product.carton_qty}
+                </td>
+
+                <td>
+                ${product.boxQty}
+                </td>
+
+                <td>
+                ${product.totalQty}
+                </td>
+
+                </tr>
+
+                `;
 
             });
+
+        resultHtml +=
+            "</table><br><br>";
 
     }
 
@@ -302,4 +385,5 @@ reader.readAsText(
 
 
 }
+
 
